@@ -122,6 +122,11 @@ module ApplicationHelper
 
   private
 
+  def course_page?
+    params[:controller] == 'courses' &&
+    params[:action] == 'show'
+  end
+
   def custom_flash(flash_type)
     "alert-#{flash_type}"
   end

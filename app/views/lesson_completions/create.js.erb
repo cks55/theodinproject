@@ -1,11 +1,11 @@
 // If it's an individual lesson page, this will run
-$('.lc-end-wrapper').html("<%= j(render('shared/complete_lesson'))%>");
+$('.lc-end-wrapper').html("<%= j render 'shared/complete_lesson', lesson: @lesson %>");
 
 // Update progress tracking bar
 $('#lc-progress-bar').html("<%= j(render('shared/pt_bar', lesson: @lesson)) %>");
 
 // update checkmarks on individual lesson pages
-if (<%= current_user.completed_lesson?(@lesson) %>) {
+if (<%= current_user.has_completed?(@lesson) %>) {
   $('.lc-completion-indicator').removeClass('hidden');
 }
 else {
@@ -13,7 +13,7 @@ else {
 }
 
 // update end-of-lesson nav states
-if (<%= current_user.completed_lesson?(@lesson) %>) {
+if (<%= current_user.has_completed?(@lesson) %>) {
   $('.lnav-next-icon').addClass('lnav-active');
   if(<%= @lesson.next_lesson.nil? %>) {
     $('.lnav-course-icon').addClass('lnav-active');
@@ -27,7 +27,7 @@ else{
 }
 
 // update percent completion indicator on lessons index page
-$('.lc-percent-completion').html("<%= j(render('shared/completion_percent', course: @lesson.course)) %>");
+$('.lc-percent-completion').html("<%= j render 'shared/completion_percent', course: @lesson.course %>");
 
 // If it's the lessons index page, this will run
-$("#lc-id-<%= @lesson.id %>").html("<%= j(render('shared/lc_index')) %>");
+$("#lc-id-<%= @lesson.id %>").html("<%= j render 'shared/lc_index', lesson: @lesson %>");

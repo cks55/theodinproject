@@ -8,21 +8,19 @@ checkbox).
 
 <!-- ...needed because sometimes it will be called as a partial
      and sometimes it will be rendered using the EJS -->
-<% lesson ||= @lesson %>
 
-  <% if current_user.completed_lesson?(lesson) %>
-  
-    <%= form_tag lesson_completion_path(:lesson_id => lesson.id), :method => "DELETE", :remote => true do %>
-      <a href="#" class="lc-checkbox lc-checked" title="Uncheck to mark lesson not completed">
-      </a>
-    <% end %> 
-  
-  <% else %>
-  
-    <%= form_for LessonCompletion.new, :method => "POST", :remote => true do |f| %>
-      <a href="#" class="lc-checkbox lc-unchecked"  title="Check to mark lesson completed">
-        <%= hidden_field_tag(:lesson_id, lesson.id) %>
-      </a>
-    <% end %> 
-  
+<% if current_user.has_completed?(lesson) %>
+  <%= form_tag lesson_completion_path(lesson), id: "delete_lesson_completion_#{lesson.id}", method: :delete, remote: true do %>
+    <a href="#" class="lc-checkbox lc-checked" title="Uncheck to mark lesson not completed">
+      <i class="fa fa-check-square-o"></i>
+    </a>
   <% end %>
+
+<% else %>
+  <% lesson_completion = lesson.lesson_completions.new %>
+  <%= form_for [lesson, lesson_completion], method: :post, remote: true do |f| %>
+    <a href="#" class="lc-checkbox lc-unchecked" title="Check to mark lesson completed">
+      <i class="fa fa-square-o"></i>
+    </a>
+  <% end %>
+<% end %>

@@ -44,9 +44,13 @@
     .curriculum-details-tile {
       text-align: center;
       flex: 1;
-      height: 340px;
+      height: 300px;
       flex-basis: 33%;
       padding-top: 2em;
+
+      img {
+        width: 160px;
+      }
 
       h3 {
         margin-bottom: .2em;
